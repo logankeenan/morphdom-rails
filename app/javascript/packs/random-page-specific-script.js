@@ -1,0 +1,1 @@
+console.log('testing out a script being added to the dom via morphdom and executing');

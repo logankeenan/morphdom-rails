@@ -24,8 +24,15 @@ document.addEventListener('turbolinks:load', function () {
         let htmlText = await response.text();
 
         morphdom(document.documentElement, htmlText, {
-            onBeforeElUpdated: function(fromEl, toEl) {
+            onBeforeElUpdated: function (fromEl, toEl) {
                 doNotChangeInputValues(toEl, fromEl);
+            },
+            onNodeAdded: function (node) {
+                if (node.nodeName === 'SCRIPT' && node.src) {
+                    var script = document.createElement('script');
+                    script.src = node.src;
+                    node.replaceWith(script)
+                }
             }
         });
     };
