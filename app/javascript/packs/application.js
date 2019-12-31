@@ -49,6 +49,6 @@ document.addEventListener('turbolinks:load', function () {
         console.log(`${end - start}ms to diff two trees with ${domNodesStart} and ${domNodesEnd} nodes each`);
     };
 
-    let fetchSearchResultsDebounced = debounce(fetchSearchResults, 100);
+    let fetchSearchResultsDebounced = debounce(fetchSearchResults, 300);
     search_text.addEventListener('keyup', fetchSearchResultsDebounced);
 });

@@ -34,9 +34,6 @@
       <td><%= person.city %></td>
       <td><%= person.state %></td>
       <td><%= person.zip %></td>
-      <td><%= link_to 'Show', person %></td>
-      <td><%= link_to 'Edit', edit_person_path(person) %></td>
-      <td><%= link_to 'Destroy', person, method: :delete, data: {confirm: 'Are you sure?'} %></td>
     </tr>
   <% end %>
   </tbody>
@@ -44,7 +41,6 @@
 
 <br>
 
-<%= link_to 'New Person', new_person_path %>
 <% if !@people.blank? && @people.count > 0 %>
   <%= javascript_pack_tag 'random-page-specific-script' %>
 <% end %>
