@@ -20,7 +20,7 @@ function doNotChangeInputValues(toEl, fromEl) {
 document.addEventListener('turbolinks:load', function () {
     let search_text = document.getElementById('search_text');
     let fetchSearchResults = async function () {
-        const response = await fetch(`http://localhost:3000/people?search_text=${search_text.value}&commit=Search`);
+        const response = await fetch(`/people?search_text=${search_text.value}&commit=Search`);
         let htmlText = await response.text();
 
         let start = new Date().getTime();
