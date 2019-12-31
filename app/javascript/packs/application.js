@@ -23,9 +23,17 @@ document.addEventListener('turbolinks:load', function () {
         const response = await fetch(`http://localhost:3000/people?search_text=${search_text.value}&commit=Search`);
         let htmlText = await response.text();
 
+        let start = new Date().getTime();
+        let domNodesStart = document.getElementsByTagName('*').length;
         morphdom(document.documentElement, htmlText, {
             onBeforeElUpdated: function (fromEl, toEl) {
                 doNotChangeInputValues(toEl, fromEl);
+
+                if (fromEl.isEqualNode(toEl)) {
+                    return false
+                }
+
+                return true
             },
             onNodeAdded: function (node) {
                 if (node.nodeName === 'SCRIPT' && node.src) {
@@ -35,8 +43,12 @@ document.addEventListener('turbolinks:load', function () {
                 }
             }
         });
+        let domNodesEnd = document.getElementsByTagName('*').length;
+        let end = new Date().getTime();
+
+        console.log(`${end - start}ms to diff two trees with ${domNodesStart} and ${domNodesEnd} nodes each`);
     };
 
-    let fetchSearchResultsDebounced = debounce(fetchSearchResults, 300);
+    let fetchSearchResultsDebounced = debounce(fetchSearchResults, 100);
     search_text.addEventListener('keyup', fetchSearchResultsDebounced);
 });
