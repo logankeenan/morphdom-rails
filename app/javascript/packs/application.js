@@ -8,10 +8,28 @@ require("turbolinks").start()
 require("@rails/activestorage").start()
 require("channels")
 
+import morphdom from 'morphdom' ;
+import debounce from 'lodash.debounce';
 
-// Uncomment to copy all static images under ../images to the output folder and reference
-// them with the image_pack_tag helper in views (e.g <%= image_pack_tag 'rails.png' %>)
-// or the `imagePath` JavaScript helper below.
-//
-// const images = require.context('../images', true)
-// const imagePath = (name) => images(name, true)
+function doNotChangeInputValues(toEl, fromEl) {
+    if (toEl.tagName === 'INPUT') {
+        toEl.value = fromEl.value;
+    }
+}
+
+document.addEventListener('turbolinks:load', function () {
+    let search_text = document.getElementById('search_text');
+    let fetchSearchResults = async function () {
+        const response = await fetch(`http://localhost:3000/people?search_text=${search_text.value}&commit=Search`);
+        let htmlText = await response.text();
+
+        morphdom(document.documentElement, htmlText, {
+            onBeforeElUpdated: function(fromEl, toEl) {
+                doNotChangeInputValues(toEl, fromEl);
+            }
+        });
+    };
+
+    let fetchSearchResultsDebounced = debounce(fetchSearchResults, 300);
+    search_text.addEventListener('keyup', fetchSearchResultsDebounced);
+});
