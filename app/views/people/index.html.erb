@@ -1,5 +1,10 @@
 <p id="notice"><%= notice %></p>
 
+<%= form_with(url: "/people", method: "get", local: true) do %>
+  <%= label_tag(:search_text, "Search") %>
+  <%= text_field_tag(:search_text, @search_text) %>
+  <%= submit_tag("Search") %>
+<% end %>
 <h1>People</h1>
 
 <table>
