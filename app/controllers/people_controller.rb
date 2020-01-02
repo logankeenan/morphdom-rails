@@ -8,7 +8,7 @@ class PeopleController < ApplicationController
 		if !@search_text.blank?
 			@people = Person.all
                           .where("lower(first_name) like ? or lower(last_name) like ?", "%#{@search_text.downcase}%", "%#{@search_text.downcase}%")
-                          .limit(100)
+                          .limit(500)
 		end
 	end
 
